@@ -20,9 +20,50 @@ namespace DragAndDropDressUpWpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool isDragging;
+        private Point clickPosition;
+
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        private void Ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isDragging = true;
+            clickPosition = e.GetPosition(MainGrid);
+            var draggableEllipse = sender as Ellipse;
+            draggableEllipse.CaptureMouse();
+        }
+
+        private void Ellipse_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                var draggableEllipse = sender as Ellipse;
+                var currentPosition = e.GetPosition(MainGrid);
+                var transform = draggableEllipse.RenderTransform as TranslateTransform;
+
+                if (transform == null)
+                {
+                    transform = new TranslateTransform();
+                    draggableEllipse.RenderTransform = transform;
+                }
+
+                transform.X += currentPosition.X - clickPosition.X;
+                transform.Y += currentPosition.Y - clickPosition.Y;
+                clickPosition = currentPosition;
+            }
+        }
+
+        private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isDragging = false;
+            var draggableEllipse = sender as Ellipse;
+            draggableEllipse.ReleaseMouseCapture();
+        }
+
+
     }
 }

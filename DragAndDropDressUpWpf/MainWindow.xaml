@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:DragAndDropDressUpWpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Style="{DynamicResource gridStyle}">
-
+    <Grid x:Name="MainGrid" Style="{DynamicResource gridStyle}">
+        <Ellipse Height="50" Width="50" Fill="SkyBlue"
+                 MouseLeftButtonDown="Ellipse_MouseLeftButtonDown"
+                 MouseMove="Ellipse_MouseMove"
+                 MouseLeftButtonUp="Ellipse_MouseLeftButtonUp"
+               
+      />
     </Grid>
 </Window>
