@@ -7,11 +7,23 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="MainGrid" Style="{DynamicResource gridStyle}" Margin="0">
-        <Ellipse x:Name="DraggableEllipse" Height="50" Width="50" Fill="SkyBlue"
+        <Ellipse Height="50" Width="50" Fill="SkyBlue"
                  MouseLeftButtonDown="Ellipse_MouseLeftButtonDown"
                  MouseMove="Ellipse_MouseMove"
                  MouseLeftButtonUp="Ellipse_MouseLeftButtonUp"
-               
-      />
+                 VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Ellipse.RenderTransform>
+                <TranslateTransform/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse Height="50" Width="50" Fill="Magenta"
+                 MouseLeftButtonDown="Ellipse_MouseLeftButtonDown"
+                 MouseMove="Ellipse_MouseMove"
+                 MouseLeftButtonUp="Ellipse_MouseLeftButtonUp"
+                 VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50">
+            <Ellipse.RenderTransform>
+                <TranslateTransform/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
     </Grid>
 </Window>

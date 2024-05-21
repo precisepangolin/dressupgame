@@ -22,13 +22,13 @@ namespace DragAndDropDressUpWpf
     {
         private bool isDragging;
         private Point clickPosition;
-        private Point initialEllipsePosition;
-        private TranslateTransform transform = new TranslateTransform();
+        private TranslateTransform transform;
 
         public MainWindow()
         {
             InitializeComponent();
-            DraggableEllipse.RenderTransform = transform;
+            transform = new TranslateTransform();
+            //DraggableEllipse.RenderTransform = transform;
         }
 
         private void Ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -36,10 +36,11 @@ namespace DragAndDropDressUpWpf
             isDragging = true;
             clickPosition = e.GetPosition(MainGrid);
 
-            // Store the initial position of the Ellipse relative to the Grid
-            initialEllipsePosition = DraggableEllipse.TransformToAncestor(MainGrid).Transform(new Point(0, 0));
-
             var draggableEllipse = sender as Ellipse;
+
+            transform = draggableEllipse.RenderTransform as TranslateTransform;
+
+            //draggableEllipse.RenderTransform = transform;
             draggableEllipse.CaptureMouse();
         }
 
@@ -54,25 +55,25 @@ namespace DragAndDropDressUpWpf
                 double offsetX = currentPosition.X - clickPosition.X;
                 double offsetY = currentPosition.Y - clickPosition.Y;
 
-                // Calculate the new position relative to the initial position
-                double newX = initialEllipsePosition.X + transform.X + offsetX;
-                double newY = initialEllipsePosition.Y + transform.Y + offsetY;
+                // Calculate the new position relative to the current transform
+                double newX = transform.X + offsetX;
+                double newY = transform.Y + offsetY;
 
                 // Get the bounds of the parent container
-                double leftBound = 0;
-                double topBound = 0;
-                double rightBound = MainGrid.ActualWidth - draggableEllipse.Width;
-                double bottomBound = MainGrid.ActualHeight - draggableEllipse.Height;
+                double leftBound = 0 - draggableEllipse.Margin.Left;
+                double topBound = 0 - draggableEllipse.Margin.Top;
+                double rightBound = MainGrid.ActualWidth - draggableEllipse.Width - draggableEllipse.Margin.Left;
+                double bottomBound = MainGrid.ActualHeight - draggableEllipse.Height - draggableEllipse.Margin.Top;
 
                 // Ensure the new position is within bounds
                 newX = Math.Max(leftBound, Math.Min(newX, rightBound));
                 newY = Math.Max(topBound, Math.Min(newY, bottomBound));
 
                 // Apply the new position to the transform
-                transform.X = newX - initialEllipsePosition.X;
-                transform.Y = newY - initialEllipsePosition.Y;
+                transform.X = newX;
+                transform.Y = newY;
 
-                // Update the click position
+                // Update the click position to the current position
                 clickPosition = currentPosition;
             }
         }
