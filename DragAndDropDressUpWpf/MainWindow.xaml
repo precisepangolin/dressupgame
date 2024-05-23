@@ -6,6 +6,18 @@
         xmlns:local="clr-namespace:DragAndDropDressUpWpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" MinHeight="400" MinWidth="700">
+    <Window.Resources>
+        <Style x:Key="draggableImgs" TargetType="Image">
+
+                    <Setter Property="Stretch" Value="None"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <EventSetter Event="MouseLeftButtonDown" Handler="Img_LeftButtonDown"/>
+                    <EventSetter Event="MouseMove" Handler="Img_MouseMove"/>
+                    <EventSetter Event="MouseLeftButtonUp" Handler="Img_LeftButtonUp"/>
+                </Style>
+
+        </Window.Resources>
     <Grid x:Name="MainGrid" Style="{DynamicResource gridStyle}" Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -16,9 +28,9 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Label Content="Doll" Grid.Column="0" Grid.Row="0"/>
-        <Image Source="/img/doll_placeholder.png" Grid.Column="0" Width="100" Height="100" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1"/>
+        <Image Source="/img/doll_placeholder.png" Grid.Column="0" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1"/>
         <Label Content="Items" Grid.Column="1" Grid.Row="0"/>
-        <WrapPanel x:Name="draggableItems" Grid.Column="1" Grid.Row="1">
+        <WrapPanel x:Name="draggableItems" Grid.Column="1" Grid.Row="1" >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
@@ -26,7 +38,7 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-        <Image Source="/img/eyes_placeholder.png" Margin="0" Grid.Row="0"/>
+        <Image Source="/img/eyes_placeholder.png" Margin="0" Grid.Row="0" Style="{StaticResource draggableImgs}" />
             <Image Source="/img/mouth_placeholder.png" Margin="20,0,0,0" Grid.Row="0"/>
             <Image Source="/img/hair_placeholder.png" Margin="40,0,0,0" Grid.Row="0"/>
 

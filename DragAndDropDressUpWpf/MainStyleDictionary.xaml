@@ -23,16 +23,17 @@
         <Setter Property="Background" Value="{DynamicResource bgGradient}"/>
 
         <Style.Resources>
+            
             <Style TargetType="WrapPanel">
                 <Setter Property="Background" Value="#AAAAAAAA"/>
                 <Style.Resources>
-                    <Style TargetType="Image">
-                        <Setter Property="Stretch" Value="None"/>
-                        <Setter Property="VerticalAlignment" Value="Top"/>
-                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Style TargetType="{x:Type Image}" >
+
                     </Style>
                 </Style.Resources>
             </Style>
         </Style.Resources>
     </Style>
+
+
 </ResourceDictionary>
