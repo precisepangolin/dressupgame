@@ -31,6 +31,11 @@ namespace DragAndDropDressUpWpf
             //DraggableEllipse.RenderTransform = transform;
         }
 
+        private void Img_SetDraggableStyle()
+        {
+
+        }
+
         private void Img_LeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             isDragging = true;
@@ -87,6 +92,14 @@ namespace DragAndDropDressUpWpf
             isDragging = false;
             var draggableImage = sender as Image;
             draggableImage.ReleaseMouseCapture();
+
+            // Move the last clicked image to top (Z-Index)
+            draggableItems.Children
+         .OfType<UIElement>()
+         .Select((child, index) => new { child, index })
+         .ToList()
+         .ForEach(item => Panel.SetZIndex(item.child, item.index));
+            Panel.SetZIndex(draggableImage, 99);
         }
 
         private void Ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

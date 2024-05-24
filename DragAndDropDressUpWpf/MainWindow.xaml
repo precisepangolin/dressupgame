@@ -39,7 +39,7 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
         <Image Source="/img/eyes_placeholder.png" Margin="0" Grid.Row="0" Style="{StaticResource draggableImgs}" />
-            <Image Source="/img/mouth_placeholder.png" Margin="20,0,0,0" Grid.Row="0"/>
+            <Image Source="/img/mouth_placeholder.png" Margin="20,0,0,0" Grid.Row="0" Style="{StaticResource draggableImgs}"/>
             <Image Source="/img/hair_placeholder.png" Margin="40,0,0,0" Grid.Row="0"/>
 
                 <Image Source="/img/top_placeholder.png" Margin="0,0,0,0" Grid.Row="1"/>
