@@ -23,9 +23,8 @@
         <Setter Property="Background" Value="{DynamicResource bgGradient}"/>
 
         <Style.Resources>
-            
+
             <Style TargetType="WrapPanel">
-                <Setter Property="Background" Value="#AAAAAAAA"/>
                 <Style.Resources>
                     <Style TargetType="{x:Type Image}" >
 

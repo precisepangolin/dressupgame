@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,10 +70,11 @@ namespace DragAndDropDressUpWpf
                 double newY = transform.Y + offsetY;
 
                 // Get the bounds of the parent container
-                double leftBound = 0 - draggableImage.Margin.Left;
+                double leftBound = 0 - draggableImage.Margin.Left - DollPanel.ActualWidth;
                 double topBound = 0 - draggableImage.Margin.Top;
-                double rightBound = MainGrid.ActualWidth - draggableImage.ActualWidth - draggableImage.Margin.Left;
+                double rightBound = draggableItems.ActualWidth - draggableImage.ActualWidth;
                 double bottomBound = MainGrid.ActualHeight - draggableImage.ActualHeight - draggableImage.Margin.Top;
+                Debug.WriteLine("margin: " + draggableImage.Margin.Left + "width: " + DollPanel.Width);
 
                 // Ensure the new position is within bounds
                 newX = Math.Max(leftBound, Math.Min(newX, rightBound));
@@ -135,6 +137,7 @@ namespace DragAndDropDressUpWpf
                 double topBound = 0 - draggableEllipse.Margin.Top;
                 double rightBound = MainGrid.ActualWidth - draggableEllipse.Width - draggableEllipse.Margin.Left;
                 double bottomBound = MainGrid.ActualHeight - draggableEllipse.Height - draggableEllipse.Margin.Top;
+                
 
                 // Ensure the new position is within bounds
                 newX = Math.Max(leftBound, Math.Min(newX, rightBound));
