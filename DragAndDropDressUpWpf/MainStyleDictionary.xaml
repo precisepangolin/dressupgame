@@ -21,7 +21,6 @@
 
     <Style x:Key="gridStyle" TargetType="Grid">
         <Setter Property="Background" Value="{DynamicResource bgGradient}"/>
-
         <Style.Resources>
 
             <Style TargetType="WrapPanel">
@@ -33,6 +32,17 @@
             </Style>
         </Style.Resources>
     </Style>
+    <Style x:Key="draggableItemsPanel" TargetType="DockPanel">
+        <Style.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="#88FFFFFF"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+    <Style x:Key="draggableItemsGrid" TargetType="Grid">
 
+        <Setter Property="Background" Value="#88FFFFFF"/>
+    </Style>
 
 </ResourceDictionary>

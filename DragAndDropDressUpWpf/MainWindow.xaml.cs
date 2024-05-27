@@ -74,7 +74,7 @@ namespace DragAndDropDressUpWpf
                 double topBound = 0 - draggableImage.Margin.Top;
                 double rightBound = draggableItems.ActualWidth - draggableImage.ActualWidth;
                 double bottomBound = MainGrid.ActualHeight - draggableImage.ActualHeight - draggableImage.Margin.Top;
-                Debug.WriteLine("margin: " + draggableImage.Margin.Left + "width: " + DollPanel.Width);
+                //Debug.WriteLine("margin: " + draggableImage.Margin.Left + "width: " + DollPanel.Width);
 
                 // Ensure the new position is within bounds
                 newX = Math.Max(leftBound, Math.Min(newX, rightBound));

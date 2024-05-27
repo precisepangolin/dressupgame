@@ -8,15 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="img\bg_placeholder.png" />
     <None Remove="img\bottom_placeholder.png" />
     <None Remove="img\doll_placeholder.png" />
     <None Remove="img\eyes_placeholder.png" />
     <None Remove="img\hair_placeholder.png" />
     <None Remove="img\mouth_placeholder.png" />
     <None Remove="img\top_placeholder.png" />
+    <None Remove="img\window_bg_placeholder.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="img\bg_placeholder.png" />
     <Resource Include="img\bottom_placeholder.png" />
     <Resource Include="img\doll_placeholder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -25,6 +28,7 @@
     <Resource Include="img\hair_placeholder.png" />
     <Resource Include="img\mouth_placeholder.png" />
     <Resource Include="img\top_placeholder.png" />
+    <Resource Include="img\window_bg_placeholder.png" />
   </ItemGroup>
 
 </Project>

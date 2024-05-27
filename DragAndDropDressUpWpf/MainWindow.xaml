@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:DragAndDropDressUpWpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" MinHeight="400" MinWidth="700">
+    <Window.Background>
+        <ImageBrush ImageSource="/img/window_bg_placeholder.png"/>
+    </Window.Background>
     <Window.Resources>
+        
         <Style x:Key="draggableImgs" TargetType="Image">
 
                     <Setter Property="Stretch" Value="None"/>
@@ -19,6 +23,9 @@
 
         </Window.Resources>
     <Grid x:Name="MainGrid" Style="{DynamicResource gridStyle}" Margin="0">
+        <Grid.Background>
+            <ImageBrush ImageSource="/img/bg_placeholder.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,50,50" />
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
@@ -32,22 +39,27 @@
         <Image Source="/img/doll_placeholder.png" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="-1"/>
         </WrapPanel>
             <Label Content="Items" Grid.Column="1" Grid.Row="0"/>
-        <WrapPanel x:Name="draggableItems" Grid.Column="1" Grid.Row="1" >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-        <Image Source="/img/eyes_placeholder.png" Margin="0" Grid.Row="0" Style="{StaticResource draggableImgs}" />
-            <Image Source="/img/mouth_placeholder.png" Margin="20,0,0,0" Grid.Row="0" Style="{StaticResource draggableImgs}"/>
-            <Image Source="/img/hair_placeholder.png" Margin="40,0,0,0" Grid.Row="0"/>
+        <DockPanel x:Name="draggableItems" Style="{DynamicResource draggableItemsPanel}" Grid.Column="1" Grid.Row="1" LastChildFill="True">
 
-                <Image Source="/img/top_placeholder.png" Margin="0,0,0,0" Grid.Row="1"/>
-                <Image Source="/img/bottom_placeholder.png" Margin="20,0,0,0" Grid.Row="1"/>
+            <Border CornerRadius="5">
+                <Grid Style="{DynamicResource draggableItemsGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/img/eyes_placeholder.png" Margin="0" Grid.Row="0" Style="{StaticResource draggableImgs}" />
+            <Image Source="/img/mouth_placeholder.png" Margin="20,0,0,0" Grid.Row="0" Style="{StaticResource draggableImgs}"/>
+                    <Image Source="/img/hair_placeholder.png" Margin="40,0,0,0" Grid.Row="0" Style="{StaticResource draggableImgs}"/>
+
+                    <Image Source="/img/top_placeholder.png" Margin="0,0,0,0" Grid.Row="1" Style="{StaticResource draggableImgs}"/>
+                    <Image Source="/img/bottom_placeholder.png" Margin="20,0,0,0" Grid.Row="1" Style="{StaticResource draggableImgs}"/>
+                
             </Grid>
-        </WrapPanel>
+            </Border>
+           
+        </DockPanel>
 
         <!-- <Ellipse Height="50" Width="50" Fill="SkyBlue"
                  MouseLeftButtonDown="Ellipse_MouseLeftButtonDown"
