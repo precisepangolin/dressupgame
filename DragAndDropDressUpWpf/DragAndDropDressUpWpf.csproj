@@ -16,6 +16,7 @@
     <None Remove="img\mouth_placeholder.png" />
     <None Remove="img\top_placeholder.png" />
     <None Remove="img\window_bg_placeholder.png" />
+    <None Remove="resources\PoetsenOne-Regular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
     <Resource Include="img\mouth_placeholder.png" />
     <Resource Include="img\top_placeholder.png" />
     <Resource Include="img\window_bg_placeholder.png" />
+    <Resource Include="resources\PoetsenOne-Regular.ttf" />
   </ItemGroup>
 
 </Project>

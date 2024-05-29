@@ -30,6 +30,13 @@
                     </Style>
                 </Style.Resources>
             </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="/resources/#PoetsenOne"/>
+                <Setter Property="Foreground" Value="#8822BB"/>
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
+            
+            
         </Style.Resources>
     </Style>
     <Style x:Key="draggableItemsPanel" TargetType="DockPanel">
