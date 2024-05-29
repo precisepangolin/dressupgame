@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DragAndDropDressUpWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" MinHeight="400" MinWidth="700">
+        Title="Doll Dress Up" Height="450" Width="800" MinHeight="400" MinWidth="700">
     <Window.Background>
         <ImageBrush ImageSource="/img/window_bg_placeholder.png"/>
     </Window.Background>
@@ -36,10 +36,10 @@
         </Grid.RowDefinitions>
         <Label Content="Doll" Grid.Column="0" Grid.Row="0"/>
         <WrapPanel x:Name="DollPanel" Grid.Column="0" Grid.Row="1" Panel.ZIndex="-2">
-        <Image Source="/img/doll_placeholder.png" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="-1"/>
+        <Image Source="/img/doll_placeholder.png" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="-1" Margin="20"/>
         </WrapPanel>
             <Label Content="Items" Grid.Column="1" Grid.Row="0"/>
-        <DockPanel x:Name="draggableItems" Style="{DynamicResource draggableItemsPanel}" Grid.Column="1" Grid.Row="1" LastChildFill="True">
+        <DockPanel x:Name="draggableItems" Style="{DynamicResource draggableItemsPanel}" Grid.Column="1" Grid.Row="1" Margin="0,0,20,20" LastChildFill="True">
 
             <Border CornerRadius="5">
                 <Grid Style="{DynamicResource draggableItemsGrid}">
@@ -54,7 +54,7 @@
                     <Image Source="/img/hair_placeholder.png" Margin="40,0,0,0" Grid.Row="0" Style="{StaticResource draggableImgs}"/>
 
                     <Image Source="/img/top_placeholder.png" Margin="0,0,0,0" Grid.Row="1" Style="{StaticResource draggableImgs}"/>
-                    <Image Source="/img/bottom_placeholder.png" Margin="20,0,0,0" Grid.Row="1" Style="{StaticResource draggableImgs}"/>
+                    <Image Source="/img/bottom_placeholder.png" Margin="50,0,0,0" Grid.Row="2" Style="{StaticResource draggableImgs}"/>
                 
             </Grid>
             </Border>

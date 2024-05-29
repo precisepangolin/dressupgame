@@ -69,12 +69,18 @@ namespace DragAndDropDressUpWpf
                 double newX = transform.X + offsetX;
                 double newY = transform.Y + offsetY;
 
+                var gridLabel = MainGrid.Children
+                    .Cast<UIElement>()
+                    .First(e => Grid.GetRow(e) == 0 && Grid.GetColumn(e) == 1);
+
+                int rowNumber = Grid.GetRow(draggableImage);
+
                 // Get the bounds of the parent container
                 double leftBound = 0 - draggableImage.Margin.Left - DollPanel.ActualWidth;
-                double topBound = 0 - draggableImage.Margin.Top;
+                double topBound = 0 - rowNumber * 50;
                 double rightBound = draggableItems.ActualWidth - draggableImage.ActualWidth;
                 double bottomBound = MainGrid.ActualHeight - draggableImage.ActualHeight - draggableImage.Margin.Top;
-                //Debug.WriteLine("margin: " + draggableImage.Margin.Left + "width: " + DollPanel.Width);
+                //Debug.WriteLine(draggableItems.GetType() + " " + gridLabel.GetType());
 
                 // Ensure the new position is within bounds
                 newX = Math.Max(leftBound, Math.Min(newX, rightBound));
