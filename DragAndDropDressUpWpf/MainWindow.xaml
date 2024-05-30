@@ -45,12 +45,12 @@
         
         
         
-        <Label Content="Doll" Grid.Column="0" Grid.Row="0"/>
+        <Label x:Name="dollLabel" Content="Doll" Grid.Column="0" Grid.Row="0"/>
             <Label Content="Items" Grid.Column="1" Grid.Row="0"/>
         <DockPanel x:Name="draggableItems" Style="{DynamicResource draggableItemsPanel}" Grid.ColumnSpan="2" Grid.Row="1" Margin="20" LastChildFill="True" Panel.ZIndex="1">
 
             <Border CornerRadius="5">
-                <Grid Style="{DynamicResource draggableItemsGrid}">
+                <Grid x:Name="itemsGrid" Style="{DynamicResource draggableItemsGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>

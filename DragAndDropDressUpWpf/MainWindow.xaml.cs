@@ -96,9 +96,9 @@ namespace DragAndDropDressUpWpf
 
                 double leftBound = 0 - draggableImage.Margin.Left - DollPanel.ActualWidth;
                 double topBound = 0 - rowNumber * 50;
-                double rightBound = draggableItems.ActualWidth - draggableImage.ActualWidth;
-                double bottomBound = MainGrid.ActualHeight - draggableImage.ActualHeight - draggableImage.Margin.Top;
-                //Debug.WriteLine(draggableItems.GetType() + " " + gridLabel.GetType());
+                double rightBound = itemsGrid.ColumnDefinitions[1].ActualWidth - draggableImage.ActualWidth - draggableImage.Margin.Left;
+                double bottomBound = draggableItems.ActualHeight - draggableImage.ActualHeight - rowNumber * 50;
+                Debug.WriteLine("draggable items width: " + draggableItems.ActualWidth + "columnspan: " + Grid.GetColumnSpan(draggableImage));
 
                 newX = Math.Max(leftBound, Math.Min(newX, rightBound));
                 newY = Math.Max(topBound, Math.Min(newY, bottomBound));
