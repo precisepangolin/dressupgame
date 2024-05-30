@@ -50,6 +50,13 @@
     <Style x:Key="draggableItemsGrid" TargetType="Grid">
 
         <Setter Property="Background" Value="#88FFFFFF"/>
+        <Style.Resources>
+            <Style TargetType="Image">
+                <Setter Property="Stretch" Value="None"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+        </Style.Resources>
     </Style>
 
 </ResourceDictionary>
