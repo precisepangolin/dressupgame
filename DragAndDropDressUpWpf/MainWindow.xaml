@@ -10,26 +10,16 @@
         <ImageBrush ImageSource="/img/window_bg_placeholder.png"/>
     </Window.Background>
     <Window.Resources>
-        
         <Style x:Key="draggableImgs" TargetType="Image">
             <Setter Property="Stretch" Value="None"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <EventSetter Event="MouseLeftButtonDown" Handler="Img_LeftButtonDown"/>
-                    <EventSetter Event="MouseMove" Handler="Img_MouseMove"/>
-                    <EventSetter Event="MouseLeftButtonUp" Handler="Img_LeftButtonUp"/>
-                </Style>
-
-        <Style x:Key="draggableImgpairs" TargetType="Image">
-            <Setter Property="Stretch" Value="None"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <EventSetter Event="MouseLeftButtonDown" Handler="ImgPair_LeftButtonDown"/>
-            <EventSetter Event="MouseMove" Handler="ImgPair_MouseMove"/>
-            <EventSetter Event="MouseLeftButtonUp" Handler="ImgPair_LeftButtonUp"/>
+            <EventSetter Event="MouseMove" Handler="Img_MouseMove"/>
+            <EventSetter Event="MouseLeftButtonUp" Handler="Img_LeftButtonUp"/>
         </Style>
-
     </Window.Resources>
+    
     <Grid x:Name="MainGrid" Style="{DynamicResource gridStyle}" Margin="0">
         <Grid.Background>
             <ImageBrush ImageSource="/img/bg_placeholder.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,50,50" />
@@ -39,18 +29,17 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        
-        
-        
+
         <Label x:Name="dollLabel" Content="Doll" Grid.Column="0" Grid.Row="0"/>
-            <Label Content="Items" Grid.Column="1" Grid.Row="0"/>
-        <DockPanel x:Name="draggableItems" Style="{DynamicResource draggableItemsPanel}" Grid.ColumnSpan="2" Grid.Row="1" Margin="20" LastChildFill="True" Panel.ZIndex="1">
+        <Label Content="Items" Grid.Column="1" Grid.Row="0"/>
+        <DockPanel x:Name="draggableItems" Style="{DynamicResource draggableItemsPanel}" Grid.ColumnSpan="2" Grid.Row="1" Margin="20,0,20,20" LastChildFill="True" Panel.ZIndex="1">
 
             <Border CornerRadius="5">
                 <Grid x:Name="itemsGrid" Style="{DynamicResource draggableItemsGrid}">
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
@@ -66,21 +55,15 @@
                         <Image x:Name="DollImage" Source="/img/doll_placeholder.png" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="0" Margin="20"/>
                     </WrapPanel>
 
-
                     <Image Source="/img/eyes_placeholder.png" Margin="0" Grid.Column="1" Grid.Row="0" Style="{StaticResource draggableImgs}" />
                     <Image Source="/img/mouth_placeholder.png" Margin="20,0,0,0" Grid.Column="1" Grid.Row="0" Style="{StaticResource draggableImgs}"/>
                     <Image x:Name="HairBack1" Source="/img/hairback_placeholder.png" Margin="40,0,0,0" Grid.Column="1" Grid.Row="0" Panel.ZIndex="-1" />
-
-                    <Image x:Name="HairFront1" Source="/img/hair_placeholder.png" Margin="40,0,0,0" Grid.Column="1" Grid.Row="0" Style="{StaticResource draggableImgpairs}" Panel.ZIndex="4"/>
-
+                    <Image x:Name="HairFront1" Source="/img/hair_placeholder.png" Margin="40,0,0,0" Grid.Column="1" Grid.Row="0" Style="{StaticResource draggableImgs}" Panel.ZIndex="4"/>
                     <Image Source="/img/top_placeholder.png" Margin="0,0,0,0" Grid.Column="1" Grid.Row="1" Style="{StaticResource draggableImgs}"/>
                     <Image Source="/img/bottom_placeholder.png" Margin="50,0,0,0" Grid.Column="1" Grid.Row="2" Style="{StaticResource draggableImgs}"/>
-                
-            </Grid>
-          </Border>
-           
-        </DockPanel>
 
-        
+                </Grid>
+            </Border>
+        </DockPanel>
     </Grid>
 </Window>

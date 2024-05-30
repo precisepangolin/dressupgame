@@ -34,44 +34,47 @@ namespace DragAndDropDressUpWpf
             InitializeComponent();
             transform = new TranslateTransform();
 
+            // Update for more front-back layered items
             imagePairs.Add(HairFront1, HairBack1);
         }
 
-
         private void Img_LeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            isDragging = true;
-            clickPosition = e.GetPosition(MainGrid);
-
-            var draggableImage = (Image)sender;
-
-            EnsureTransform(draggableImage);
-
-            transform = (TranslateTransform)draggableImage.RenderTransform;
-            draggableImage.CaptureMouse();
+            var frontImage = (Image)sender;
+            if (imagePairs.TryGetValue(frontImage, out var backImage))
+            {
+                HandleMouseButtonDown(frontImage, backImage, e.GetPosition(MainGrid));
+            }
+            else
+            {
+                HandleMouseButtonDown(frontImage, null, e.GetPosition(MainGrid));
+            }
         }
 
-        private void ImgPair_LeftButtonDown(object sender, MouseEventArgs e)
+        private void HandleMouseButtonDown(Image frontImage, Image backImage, Point clickPosition)
         {
             isDragging = true;
-            clickPosition = e.GetPosition(MainGrid);
-
-            var frontImage = (Image)sender;
-            if (!imagePairs.TryGetValue(frontImage, out var backImage))
-            {
-                return;
-            }
+            this.clickPosition = clickPosition;
 
             EnsureTransform(frontImage);
-            EnsureTransform(backImage);
             frontImage.CaptureMouse();
+
+            if (backImage != null)
+            {
+                EnsureTransform(backImage);
+            }
+
+            if (backImage == null)
+            {
+                transform = (TranslateTransform)frontImage.RenderTransform;
+            }
         }
 
-        private void EnsureTransform(UIElement uIElement)
+        private void EnsureTransform(Image image)
         {
-            if (uIElement.RenderTransform is not TranslateTransform)
+            if (image.RenderTransform == null || !(image.RenderTransform is TranslateTransform))
             {
-                uIElement.RenderTransform = new TranslateTransform();
+                image.RenderTransform = new TranslateTransform();
             }
         }
 
@@ -79,172 +82,108 @@ namespace DragAndDropDressUpWpf
         {
             if (isDragging)
             {
-                var draggableImage = sender as Image;
-                var currentPosition = e.GetPosition(MainGrid);
-
-                double offsetX = currentPosition.X - clickPosition.X;
-                double offsetY = currentPosition.Y - clickPosition.Y;
-
-                double newX = transform.X + offsetX;
-                double newY = transform.Y + offsetY;
-
-                var gridLabel = MainGrid.Children
-                    .Cast<UIElement>()
-                    .First(e => Grid.GetRow(e) == 0 && Grid.GetColumn(e) == 1);
-
-                int rowNumber = Grid.GetRow(draggableImage);
-
-                double leftBound = 0 - draggableImage.Margin.Left - DollPanel.ActualWidth;
-                double topBound = 0 - rowNumber * 50;
-                double rightBound = itemsGrid.ColumnDefinitions[1].ActualWidth - draggableImage.ActualWidth - draggableImage.Margin.Left;
-                double bottomBound = draggableItems.ActualHeight - draggableImage.ActualHeight - rowNumber * 50;
-                Debug.WriteLine("draggable items width: " + draggableItems.ActualWidth + "columnspan: " + Grid.GetColumnSpan(draggableImage));
-
-                newX = Math.Max(leftBound, Math.Min(newX, rightBound));
-                newY = Math.Max(topBound, Math.Min(newY, bottomBound));
-
-                transform.X = newX;
-                transform.Y = newY;
-
-                clickPosition = currentPosition;
+                var frontImage = (Image)sender;
+                if (imagePairs.TryGetValue(frontImage, out var backImage))
+                {
+                    HandleMouseMove(frontImage, backImage, e.GetPosition(MainGrid));
+                }
+                else
+                {
+                    HandleMouseMove(frontImage, null, e.GetPosition(MainGrid));
+                }
             }
         }
 
-        private void ImgPair_MouseMove(object sender, MouseEventArgs e)
+        private void HandleMouseMove(Image frontImage, Image backImage, Point currentPosition)
         {
-            if (isDragging)
+            double offsetX = currentPosition.X - clickPosition.X;
+            double offsetY = currentPosition.Y - clickPosition.Y;
+
+            var transformFront = (TranslateTransform)frontImage.RenderTransform;
+            double newXFront = transformFront.X + offsetX;
+            double newYFront = transformFront.Y + offsetY;
+
+            double newXBack = 0, newYBack = 0;
+            if (backImage != null)
             {
-                var frontImage = sender as Image;
-                if (!imagePairs.TryGetValue(frontImage, out var backImage))
-                {
-                    return;
-                }
-
-                var currentPosition = e.GetPosition(MainGrid);
-
-                double offsetX = currentPosition.X - clickPosition.X;
-                double offsetY = currentPosition.Y - clickPosition.Y;
-
-                var transformFront = (TranslateTransform)frontImage.RenderTransform;
                 var transformBack = (TranslateTransform)backImage.RenderTransform;
+                newXBack = transformBack.X + offsetX;
+                newYBack = transformBack.Y + offsetY;
+            }
 
-                double newXFront = transformFront.X + offsetX;
-                double newYFront = transformFront.Y + offsetY;
-                double newXBack = transformBack.X + offsetX;
-                double newYBack = transformBack.Y + offsetY;
+            double[] bounds = CalculateBounds(frontImage);
 
-        
-                int rowNumber = Grid.GetRow(frontImage);
+            newXFront = ApplyBounds(newXFront, bounds[0], bounds[1]);
+            newYFront = ApplyBounds(newYFront, bounds[2], bounds[3]);
 
-                double leftBound = 0 - frontImage.Margin.Left - DollPanel.ActualWidth;
-                double topBound = 0 - rowNumber * 50;
-                double rightBound = draggableItems.ActualWidth - frontImage.ActualWidth;
-                double bottomBound = MainGrid.ActualHeight - frontImage.ActualHeight - frontImage.Margin.Top;
-                //Debug.WriteLine(draggableItems.GetType() + " " + gridLabel.GetType());
+            if (backImage != null)
+            {
+                newXBack = ApplyBounds(newXBack, bounds[0], bounds[1]);
+                newYBack = ApplyBounds(newYBack, bounds[2], bounds[3]);
+            }
 
-                newXFront = Math.Max(leftBound, Math.Min(newXFront, rightBound));
-                newYFront = Math.Max(topBound, Math.Min(newYFront, bottomBound));
+            transformFront.X = newXFront;
+            transformFront.Y = newYFront;
 
-                newXBack = Math.Max(leftBound, Math.Min(newXBack, rightBound));
-                newYBack = Math.Max(topBound, Math.Min(newYBack, bottomBound));
-
-                transformFront.X = newXFront;
-                transformFront.Y = newYFront;
+            if (backImage != null)
+            {
+                var transformBack = (TranslateTransform)backImage.RenderTransform;
                 transformBack.X = newXBack;
                 transformBack.Y = newYBack;
+            }
 
-                clickPosition = currentPosition;
+            clickPosition = currentPosition;
+        }
+
+        private double[] CalculateBounds(Image image)
+        {
+            int rowNumber = Grid.GetRow(image);
+            double gridRowHeight = itemsGrid.RowDefinitions[1].ActualHeight;
+
+            double leftBound = 0 - image.Margin.Left - DollPanel.ActualWidth;
+            double topBound = 0 - rowNumber * gridRowHeight;
+            double rightBound = itemsGrid.ColumnDefinitions[1].ActualWidth - image.ActualWidth - image.Margin.Left;
+            double bottomBound = draggableItems.ActualHeight - image.ActualHeight - rowNumber * gridRowHeight;
+
+            return new double[] { leftBound, rightBound, topBound, bottomBound };
+        }
+
+        private double ApplyBounds(double value, double min, double max)
+        {
+            return Math.Max(min, Math.Min(value, max));
+        }
+
+        private void Img_LeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var frontImage = (Image)sender;
+            if (imagePairs.TryGetValue(frontImage, out var backImage))
+            {
+                HandleMouseButtonUp(frontImage, backImage);
+            }
+            else
+            {
+                HandleMouseButtonUp(frontImage, null);
             }
         }
 
-        private void ImgPair_LeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void HandleMouseButtonUp(Image frontImage, Image backImage)
         {
             isDragging = false;
-            var frontImage = sender as Image;
             frontImage.ReleaseMouseCapture();
-            if (!imagePairs.TryGetValue(frontImage, out var backImage))
-            {
-                return;
-            }
 
-            // Move the last clicked front image to top (Z-Index)
+            // Sort images and move the last clicked front image to top (Z-Index)
             draggableItems.Children
-         .OfType<UIElement>()
-         .Select((child, index) => new { child, index })
-         .ToList()
-         .ForEach(item => Panel.SetZIndex(item.child, item.index));
+                .OfType<UIElement>()
+                .Select((child, index) => new { child, index })
+                .ToList()
+                .ForEach(item => Panel.SetZIndex(item.child, item.index));
+
             Panel.SetZIndex(frontImage, 99);
-            Panel.SetZIndex(backImage, -99);
 
-               }
-
-private void Img_LeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            isDragging = false;
-            var draggableImage = sender as Image;
-            draggableImage.ReleaseMouseCapture();
-
-            // Move the last clicked image to top (Z-Index)
-            draggableItems.Children
-         .OfType<UIElement>()
-         .Select((child, index) => new { child, index })
-         .ToList()
-         .ForEach(item => Panel.SetZIndex(item.child, item.index));
-            Panel.SetZIndex(draggableImage, 99);
-        }
-
-        private void Ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            isDragging = true;
-            clickPosition = e.GetPosition(MainGrid);
-
-            var draggableEllipse = sender as Ellipse;
-
-            transform = draggableEllipse.RenderTransform as TranslateTransform;
-
-            draggableEllipse.CaptureMouse();
-        }
-
-        private void Ellipse_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (isDragging)
+            if (backImage != null)
             {
-                var draggableEllipse = sender as Ellipse;
-                var currentPosition = e.GetPosition(MainGrid);
-
-                // Calculate the offset
-                double offsetX = currentPosition.X - clickPosition.X;
-                double offsetY = currentPosition.Y - clickPosition.Y;
-
-                // Calculate the new position relative to the current transform
-                double newX = transform.X + offsetX;
-                double newY = transform.Y + offsetY;
-
-                // Get the bounds of the parent container
-                double leftBound = 0 - draggableEllipse.Margin.Left;
-                double topBound = 0 - draggableEllipse.Margin.Top;
-                double rightBound = MainGrid.ActualWidth - draggableEllipse.Width - draggableEllipse.Margin.Left;
-                double bottomBound = MainGrid.ActualHeight - draggableEllipse.Height - draggableEllipse.Margin.Top;
-                
-
-                // Ensure the new position is within bounds
-                newX = Math.Max(leftBound, Math.Min(newX, rightBound));
-                newY = Math.Max(topBound, Math.Min(newY, bottomBound));
-
-                // Apply the new position to the transform
-                transform.X = newX;
-                transform.Y = newY;
-
-                // Update the click position to the current position
-                clickPosition = currentPosition;
+                Panel.SetZIndex(backImage, -99);
             }
-        }
-
-        private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            isDragging = false;
-            var draggableEllipse = sender as Ellipse;
-            draggableEllipse.ReleaseMouseCapture();
         }
     }
 }
