@@ -1,6 +1,6 @@
 ﻿# Dress up game
  
-A dress up game made for desktop in WPF. So far most basic features are implemented.
+A dress up game made for desktop in WPF. So far most basic features are implemented, as described below.
 
 ## Current features
 * Placeholder images for the doll and items
