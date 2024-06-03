@@ -13,6 +13,7 @@ A dress up game made for desktop in WPF. So far most basic features are implemen
 * More items and improved aesthetics
 * Add option to export doll image
 * Add BGM/sound?
+* Changeable doll skin color
 
 ## Screenshots
 * Before moving
